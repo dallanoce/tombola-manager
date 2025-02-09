@@ -22,6 +22,15 @@ class ControlWindow:
         # Control frame (top left)
         control_frame = ttk.LabelFrame(left_frame, text="Controls")
         control_frame.pack(padx=5, pady=5, fill="x")
+
+
+        # Add state selection dropdown
+        tk.Label(control_frame, text="Select State:").pack(pady=5)
+        self.state_var = tk.StringVar(value="Ambo")
+        self.state_dropdown = ttk.Combobox(control_frame, textvariable=self.state_var, state="readonly")
+        self.state_dropdown['values'] = ("Ambo", "Terno", "Quaterna", "Cinquina", "Tombola", "SUPERBINGO")
+        self.state_dropdown.pack(pady=5)
+        self.state_dropdown.bind("<<ComboboxSelected>>", self.update_state)
         
         # Number entry
         tk.Label(control_frame, text="Enter number:").pack(pady=5)
@@ -191,13 +200,20 @@ class ControlWindow:
             self.update_log()
         self.number_entry.delete(0, tk.END)
     
+    def update_state(self, event):
+        self.game.state = self.state_var.get()
+        self.view_window.update_state_display()
+        self.game.log_action(f"State changed to {self.game.state}")
+        self.update_log()
+    
     def save_game(self):
         data = {
             "name": self.game.name,
             "numbers": list(self.game.numbers),
             "date": self.game.date,
             "log": self.game.log,
-            "last_number": self.game.last_number  # Add this line
+            "last_number": self.game.last_number,  # Add this line
+            "state": self.game.state  # Add this line
         }
         
         if not os.path.exists("games"):

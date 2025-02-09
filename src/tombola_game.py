@@ -8,6 +8,7 @@ class TombolaGame:
         self.date = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
         self.log = []
         self.last_number = None  # Add tracking for last number
+        self.state = "Ambo"  # Add this line
     
     def add_number(self, number):
         if number not in self.numbers:

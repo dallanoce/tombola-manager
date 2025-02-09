@@ -10,12 +10,17 @@ class ViewWindow:
         
         # Create main frame
         main_frame = ttk.Frame(self.window)
-        main_frame.pack(padx=10, pady=10, expand=True)
+        main_frame.grid(padx=10, pady=10, sticky="nsew")
+        
+        # Add state display
+        self.state_display = tk.Text(main_frame, height=1, width=20, state='disabled')
+        self.state_display.grid(row=0, column=0, columnspan=10, pady=5)
+        self.update_state_display()
         
         # Create grid of numbers with consistent spacing
         self.number_labels = {}
         for i in range(1, 91):
-            row = (i-1) // 10
+            row = (i-1) // 10 + 1  # Adjust row index to account for state display
             col = (i-1) % 10
             
             # Create a frame for each number to ensure consistent sizing
@@ -58,3 +63,9 @@ class ViewWindow:
                     fg="lightgray",
                     font=uncalled_font
                 )
+    
+    def update_state_display(self):
+        self.state_display.config(state='normal')
+        self.state_display.delete(1.0, tk.END)
+        self.state_display.insert(tk.END, f"State: {self.game.state}")
+        self.state_display.config(state='disabled')

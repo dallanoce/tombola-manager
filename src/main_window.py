@@ -68,7 +68,8 @@ class MainWindow:
                 game.numbers = set(data["numbers"])
                 game.date = data["date"]
                 game.log = data.get("log", [])
-                game.last_number = data.get("last_number", None)  # Add this line
+                game.last_number = data.get("last_number", None)
+                game.state = data.get("state", "Ambo")  # Add this line
                 game.log_action("Game loaded")
                 
                 view_window = ViewWindow(game)
