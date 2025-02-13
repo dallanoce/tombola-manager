@@ -3,9 +3,9 @@ from tkinter import ttk, messagebox
 import json
 import os
 
-from src.tombola_game import TombolaGame
-from src.view_window import ViewWindow
-from src.control_window import ControlWindow
+from src.tombola_manager.tombola_game import TombolaGame
+from src.tombola_manager.view_window import ViewWindow
+from src.tombola_manager.control_window import ControlWindow
 
 
 class MainWindow:

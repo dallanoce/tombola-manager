@@ -1,4 +1,4 @@
-from src.main_window import MainWindow
+from tombola_manager.main_window import MainWindow
 
 def main():
     app = MainWindow()
