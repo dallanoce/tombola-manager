@@ -1,1 +1,1 @@
-pyinstaller --onefile --noconsole --icon=resources/icon.ico --windowed main.py
+pyinstaller --onefile --noconsole --icon=resources/icon.ico --windowed --name=TombolaManager main.py

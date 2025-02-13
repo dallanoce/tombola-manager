@@ -44,6 +44,14 @@ A desktop application to manage Tombola (Italian Bingo) games with real-time vis
   pip install pyinstaller
   ```
 
+### Installing the Package
+
+1. Navigate to the project directory
+2. Install the `tombolamanager` package:
+   ```
+   pip install -e .
+   ```
+
 ### Creating an Executable
 
 1. Navigate to the project directory
