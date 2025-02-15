@@ -12,7 +12,10 @@ class MainWindow:
     def __init__(self):
         self.window = tk.Tk()
         self.window.title("Tombola Manager")
-        self.window.geometry("400x400")
+        self.window.geometry("500x500")
+        
+        # Set custom icon
+        self.window.iconbitmap('src/tombola_manager/icon/icon.ico')
         
         # New game frame
         new_game_frame = ttk.LabelFrame(self.window, text="New Game")

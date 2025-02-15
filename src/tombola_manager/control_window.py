@@ -10,7 +10,10 @@ class ControlWindow:
         self.window.title(f"Tombola Control - {game.name}")
         self.game = game
         self.view_window = view_window
-        
+
+        # Set custom icon
+        self.window.iconbitmap('src/tombola_manager/icon/icon.ico')
+
         # Create main frame for better organization
         main_frame = ttk.Frame(self.window)
         main_frame.pack(padx=10, pady=10, fill="both", expand=True)
@@ -25,7 +28,7 @@ class ControlWindow:
 
 
         # Add state selection dropdown
-        tk.Label(control_frame, text="Select State:").pack(pady=5)
+        tk.Label(control_frame, text="Select State:", font=("Helvetica", 10)).pack(pady=5)
         self.state_var = tk.StringVar(value="Ambo")
         self.state_dropdown = ttk.Combobox(control_frame, textvariable=self.state_var, state="readonly")
         self.state_dropdown['values'] = ("Ambo", "Terno", "Quaterna", "Cinquina", "Tombola", "SUPERBINGO")
@@ -33,17 +36,17 @@ class ControlWindow:
         self.state_dropdown.bind("<<ComboboxSelected>>", self.update_state)
         
         # Number entry
-        tk.Label(control_frame, text="Enter number:").pack(pady=5)
-        self.number_entry = tk.Entry(control_frame)
+        tk.Label(control_frame, text="Enter number:", font=("Helvetica", 10)).pack(pady=5)
+        self.number_entry = tk.Entry(control_frame, font=("Helvetica", 10))
         self.number_entry.pack(pady=5)
         
         # Buttons
         tk.Button(control_frame, text="Add Number", 
-                 command=self.add_number).pack(pady=5)
+                 command=self.add_number, bg="green", fg="white", font=("Helvetica", 12, "bold")).pack(pady=5)
         tk.Button(control_frame, text="Remove Number", 
-                 command=self.remove_number).pack(pady=5)
+                 command=self.remove_number, bg="red", fg="white", font=("Helvetica", 12, "bold")).pack(pady=5)
         tk.Button(control_frame, text="Save Game", 
-                 command=self.save_game).pack(pady=5)
+                 command=self.save_game, font=("Helvetica", 12)).pack(pady=5)
         
         # Status frame (bottom left)
         status_frame = ttk.LabelFrame(left_frame, text="Status Table")
@@ -66,7 +69,7 @@ class ControlWindow:
             row = (i-1) // 10
             col = (i-1) % 10
             label = tk.Label(grid_container, text=str(i), width=3, height=1,
-                           relief="raised", borderwidth=1)
+                           relief="raised", borderwidth=1, font=("Helvetica", 10))
             label.grid(row=row, column=col, padx=1, pady=1)
             self.grid_labels[i] = label
         
@@ -97,8 +100,8 @@ class ControlWindow:
         for key, text in stats:
             frame = ttk.Frame(self.stats_frame)
             frame.pack(fill="x", padx=5, pady=2)
-            tk.Label(frame, text=text).pack(side="left")
-            label = tk.Label(frame, text="0")
+            tk.Label(frame, text=text, font=("Helvetica", 10)).pack(side="left")
+            label = tk.Label(frame, text="0", font=("Helvetica", 10))
             label.pack(side="right")
             self.stats_labels[key] = label
         
@@ -108,7 +111,7 @@ class ControlWindow:
         
         # Create scrolled text widget for log
         self.log_text = scrolledtext.ScrolledText(log_frame, width=40, height=20, 
-                                                wrap=tk.WORD, state='disabled')
+                                                wrap=tk.WORD, state='disabled', font=("Helvetica", 10))
         self.log_text.pack(padx=5, pady=5, fill="both", expand=True)
         
         # Load existing log if any
