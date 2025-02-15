@@ -1,8 +1,12 @@
 from setuptools import setup, find_packages
 
+def read_version():
+    with open('RELEASE.txt') as f:
+        return f.readline().strip()
+
 setup(
     name='tombolamanager',
-    version='0.1.0',
+    version=read_version(),
     author='Francesco Dallanoce',
     author_email='dallanoce.fd@gmail.com',
     description='A brief description of your package',

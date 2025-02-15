@@ -1,0 +1,16 @@
+0.1.1
+
+### New Features
+- ViewVindow now in dark mode
+- ViewVindow full size and auto-resizable
+
+### Fixes
+- N/A
+
+0.1.0
+
+### New Features
+- Initial release of the tombola manager package.
+
+### Fixes
+- N/A
