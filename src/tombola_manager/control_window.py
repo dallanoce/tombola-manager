@@ -3,6 +3,8 @@ from tkinter import ttk, messagebox, scrolledtext
 import json
 import os
 
+from src.tombola_manager.utils import resource_path
+
 
 class ControlWindow:
     def __init__(self, game, view_window):
@@ -12,7 +14,7 @@ class ControlWindow:
         self.view_window = view_window
 
         # Set custom icon
-        self.window.iconbitmap('src/tombola_manager/icon/icon.ico')
+        self.window.iconbitmap(resource_path('src/tombola_manager/icon/icon.ico'))
 
         # Create main frame for better organization
         main_frame = ttk.Frame(self.window)

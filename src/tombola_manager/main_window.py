@@ -6,6 +6,7 @@ import os
 from src.tombola_manager.tombola_game import TombolaGame
 from src.tombola_manager.view_window import ViewWindow
 from src.tombola_manager.control_window import ControlWindow
+from src.tombola_manager.utils import resource_path
 
 
 class MainWindow:
@@ -15,7 +16,7 @@ class MainWindow:
         self.window.geometry("500x500")
         
         # Set custom icon
-        self.window.iconbitmap('src/tombola_manager/icon/icon.ico')
+        self.window.iconbitmap(resource_path('src/tombola_manager/icon/icon.ico'))
         
         # New game frame
         new_game_frame = ttk.LabelFrame(self.window, text="New Game")

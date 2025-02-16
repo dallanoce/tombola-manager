@@ -1,6 +1,8 @@
 import tkinter as tk
 from tkinter import ttk
 
+from src.tombola_manager.utils import resource_path
+
 
 class ViewWindow:
     def __init__(self, game):
@@ -16,7 +18,7 @@ class ViewWindow:
         self.game = game
     
         # Set custom icon
-        self.window.iconbitmap('src/tombola_manager/icon/icon.ico')
+        self.window.iconbitmap(resource_path('src/tombola_manager/icon/icon.ico'))
         
         # Set dark mode colors
         self.bg_color = "#2e2e2e"
