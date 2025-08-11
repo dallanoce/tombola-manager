@@ -47,7 +47,7 @@ class ControlWindow:
         
         # Number entry
         tk.Label(control_frame, text=self.lang.get_text('enter_number')).pack(pady=5)
-        self.number_entry = tk.Entry(control_frame)
+        self.number_entry = tk.Entry(control_frame, font=("Arial", 14), width=10)
         self.number_entry.pack(pady=5)
         
         # Buttons

@@ -129,5 +129,5 @@ class ViewWindow:
     def update_state_display(self):
         self.state_display.config(state='normal')
         self.state_display.delete(1.0, tk.END)
-        self.state_display.insert(tk.END, self.game.state, "center")
+        self.state_display.insert(tk.END, f'{self.game.name}: {self.game.state}', "center")
         self.state_display.config(state='disabled')
