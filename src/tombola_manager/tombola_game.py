@@ -1,4 +1,5 @@
 from datetime import datetime
+from .language_manager import LanguageManager
 
 
 class TombolaGame:
@@ -7,28 +8,32 @@ class TombolaGame:
         self.numbers = set()
         self.date = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
         self.log = []
-        self.last_number = None  # Add tracking for last number
-        self.state = "Ambo"  # Add this line
+        self.last_number = None
+        self.state = "Ambo"
+        self.lang = LanguageManager()
     
     def add_number(self, number):
-        if number not in self.numbers:
+        """Add a number to the game"""
+        if 1 <= number <= 90 and number not in self.numbers:
             self.numbers.add(number)
-            self.last_number = number  # Track last added number
-            self.log_action(f"Added number {number}")
+            self.last_number = number
             return True
         return False
     
     def remove_number(self, number):
+        """Remove a number from the game"""
         if number in self.numbers:
             self.numbers.remove(number)
-            if self.last_number == number:
-                # If we removed the last number, find the new last number
-                self.last_number = max(self.numbers) if self.numbers else None
-            self.log_action(f"Removed number {number}")
+            if number == self.last_number:
+                self.last_number = None
             return True
         return False
     
-    def log_action(self, action):
-        timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-        log_entry = f"[{timestamp}] {action}"
-        self.log.append(log_entry)
+    def log_action(self, message):
+        """Add an action to the log with timestamp"""
+        timestamp = datetime.now().strftime("%H:%M:%S")
+        self.log.append(f"[{timestamp}] {message}")
+        
+    def get_state_text(self):
+        """Get the current state text"""
+        return self.lang.get_text(self.state.lower())

@@ -1,19 +1,25 @@
 import tkinter as tk
 from tkinter import ttk
 
+from src.tombola_manager.utils import resource_path
+from src.tombola_manager.language_manager import LanguageManager
+
 
 class ViewWindow:
     def __init__(self, game):
-
         # Configure styles for dark mode
         style = ttk.Style()
         style.configure("Dark.TFrame", background="#2e2e2e")
 
         self.window = tk.Toplevel()
-        self.window.title(f"Tombola View - {game.name}")
+        self.lang = LanguageManager()
+        self.window.title(self.lang.get_text('view_title', game.name))
         self.window.attributes('-fullscreen', True)  # Make the window full screen
         self.window.resizable(False, False)  # Make the window not resizable
         self.game = game
+    
+        # Set custom icon
+        self.window.iconbitmap(resource_path('src/tombola_manager/icon/icon.ico'))
         
         # Set dark mode colors
         self.bg_color = "#2e2e2e"
@@ -26,7 +32,7 @@ class ViewWindow:
         
         # Create main frame
         main_frame = ttk.Frame(self.window)
-        main_frame.grid(padx=10, pady=10, sticky="nsew")
+        main_frame.grid(padx=20, pady=20, sticky="nsew")
         main_frame.configure(style="Dark.TFrame")
         
         # Configure grid to expand with window
@@ -53,8 +59,8 @@ class ViewWindow:
             frame.grid_propagate(False)  # Force the frame to stay at specified size
             frame.configure(style="Dark.TFrame")
             
-            label = tk.Label(frame, text=str(i), width=2,  # Set width to 2 characters
-                             font=('TkDefaultFont', 10), bg=self.bg_color, fg=self.fg_color)
+            label = tk.Label(frame, text=str(i), width=2,
+                           font=('TkDefaultFont', 10), bg=self.bg_color, fg=self.fg_color)
             label.place(relx=0.5, rely=0.5, anchor="center")  # Center in frame
             self.number_labels[i] = label
         
@@ -76,7 +82,7 @@ class ViewWindow:
     
     def adjust_font_size(self, event):
         # Calculate font size based on window size
-        new_font_size = max(10, int(event.width / 50))
+        new_font_size = max(10, int(event.width / 40))
         self.called_font = new_font_size
         self.uncalled_font = new_font_size - 2
         
@@ -123,5 +129,5 @@ class ViewWindow:
     def update_state_display(self):
         self.state_display.config(state='normal')
         self.state_display.delete(1.0, tk.END)
-        self.state_display.insert(tk.END, f"State: {self.game.state}", "center")
+        self.state_display.insert(tk.END, f'{self.game.name}: {self.game.state}', "center")
         self.state_display.config(state='disabled')

@@ -56,7 +56,13 @@ A desktop application to manage Tombola (Italian Bingo) games with real-time vis
    ```
    Or manually:
    ```
-   pyinstaller --onefile --noconsole --icon=resources/icon.ico --windowed --name="Tombola Manager" main.py
+   pyinstaller --onefile ^
+            --noconsole ^
+            --icon=src/tombola_manager/icon/icon.ico ^
+            --windowed ^
+            --name="Tombola Manager" ^
+            --add-data "src/tombola_manager/icon/icon.ico;src/tombola_manager/icon" ^
+            main.py
    ```
 
 The executable will be created in the `dist` directory.

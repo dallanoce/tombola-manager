@@ -1,0 +1,120 @@
+TRANSLATIONS = {
+    'en': {
+        # Main Window
+        'app_title': 'Tombola Manager',
+        'new_game': 'New Game',
+        'game_name': 'Game Name:',
+        'start_new_game': 'Start New Game',
+        'load_game': 'Load Game',
+        'load_selected_game': 'Load Selected Game',
+        'error': 'Error',
+        'warning': 'Warning',
+        'enter_game_name': 'Please enter a game name!',
+        'game_exists': 'A game with this name already exists!',
+        'select_game': 'Please select a game to load!',
+        'error_loading': 'Error loading game: {}',
+
+        # View Window
+        'view_title': 'Tombola View - {}',
+
+        # Control Window
+        'control_title': 'Tombola Control - {}',
+        'controls': 'Controls',
+        'select_state': 'Select State:',
+        'enter_number': 'Enter number:',
+        'add_number': 'Add Number',
+        'remove_number': 'Remove Number',
+        'save_game': 'Save Game',
+        'status_table': 'Status Table',
+        'grid_view': 'Grid View',
+        'list_view': 'List View',
+        'called_numbers': 'Called Numbers',
+        'remaining_numbers': 'Remaining Numbers',
+        'statistics': 'Statistics',
+        'total_numbers': 'Total Numbers Called:',
+        'numbers_remaining': 'Numbers Remaining:',
+        'completion': 'Completion Percentage:',
+        'action_log': 'Action Log',
+        'number_exists': 'Number already exists!',
+        'invalid_number': 'Number must be between 1 and 90!',
+        'enter_valid': 'Please enter a valid number!',
+        'number_not_found': 'Number not found!',
+
+        # Game States
+        'ambo': 'Ambo',
+        'terno': 'Terno',
+        'quaterna': 'Quaterna',
+        'cinquina': 'Cinquina',
+        'tombola': 'Tombola',
+        'superbingo': 'SUPERBINGO',
+
+        # Log messages
+        'game_created': 'Game created',
+        'game_loaded': 'Game loaded',
+        'failed_add': 'Failed to add number {} (already exists)',
+        'failed_add_invalid': 'Failed to add invalid number {} (out of range)',
+        'failed_add_input': 'Failed to add invalid input',
+        'failed_remove': 'Failed to remove number {} (not found)',
+        'failed_remove_input': 'Failed to remove invalid input',
+        'state_changed': 'State changed to {}',
+    },
+    'it': {
+        # Main Window
+        'app_title': 'Gestore Tombola',
+        'new_game': 'Nuova Partita',
+        'game_name': 'Nome Partita:',
+        'start_new_game': 'Inizia Nuova Partita',
+        'load_game': 'Carica Partita',
+        'load_selected_game': 'Carica Partita Selezionata',
+        'error': 'Errore',
+        'warning': 'Attenzione',
+        'enter_game_name': 'Inserire il nome della partita!',
+        'game_exists': 'Esiste già una partita con questo nome!',
+        'select_game': 'Selezionare una partita da caricare!',
+        'error_loading': 'Errore nel caricamento della partita: {}',
+
+        # View Window
+        'view_title': 'Visualizzazione Tombola - {}',
+
+        # Control Window
+        'control_title': 'Controllo Tombola - {}',
+        'controls': 'Controlli',
+        'select_state': 'Seleziona Stato:',
+        'enter_number': 'Inserisci numero:',
+        'add_number': 'Aggiungi Numero',
+        'remove_number': 'Rimuovi Numero',
+        'save_game': 'Salva Partita',
+        'status_table': 'Tabella Stato',
+        'grid_view': 'Vista Griglia',
+        'list_view': 'Vista Lista',
+        'called_numbers': 'Numeri Chiamati',
+        'remaining_numbers': 'Numeri Rimanenti',
+        'statistics': 'Statistiche',
+        'total_numbers': 'Numeri Chiamati Totali:',
+        'numbers_remaining': 'Numeri Rimanenti:',
+        'completion': 'Percentuale Completamento:',
+        'action_log': 'Registro Azioni',
+        'number_exists': 'Il numero esiste già!',
+        'invalid_number': 'Il numero deve essere tra 1 e 90!',
+        'enter_valid': 'Inserire un numero valido!',
+        'number_not_found': 'Numero non trovato!',
+
+        # Game States
+        'ambo': 'Ambo',
+        'terno': 'Terno',
+        'quaterna': 'Quaterna',
+        'cinquina': 'Cinquina',
+        'tombola': 'Tombola',
+        'superbingo': 'SUPERBINGO',
+
+        # Log messages
+        'game_created': 'Partita creata',
+        'game_loaded': 'Partita caricata',
+        'failed_add': 'Impossibile aggiungere il numero {} (già esistente)',
+        'failed_add_invalid': 'Impossibile aggiungere il numero {} non valido (fuori intervallo)',
+        'failed_add_input': 'Impossibile aggiungere input non valido',
+        'failed_remove': 'Impossibile rimuovere il numero {} (non trovato)',
+        'failed_remove_input': 'Impossibile rimuovere input non valido',
+        'state_changed': 'Stato cambiato in {}',
+    }
+}
