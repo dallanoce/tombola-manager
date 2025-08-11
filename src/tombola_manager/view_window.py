@@ -2,17 +2,18 @@ import tkinter as tk
 from tkinter import ttk
 
 from src.tombola_manager.utils import resource_path
+from src.tombola_manager.language_manager import LanguageManager
 
 
 class ViewWindow:
     def __init__(self, game):
-
         # Configure styles for dark mode
         style = ttk.Style()
         style.configure("Dark.TFrame", background="#2e2e2e")
 
         self.window = tk.Toplevel()
-        self.window.title(f"Tombola View - {game.name}")
+        self.lang = LanguageManager()
+        self.window.title(self.lang.get_text('view_title', game.name))
         self.window.attributes('-fullscreen', True)  # Make the window full screen
         self.window.resizable(False, False)  # Make the window not resizable
         self.game = game
@@ -58,8 +59,8 @@ class ViewWindow:
             frame.grid_propagate(False)  # Force the frame to stay at specified size
             frame.configure(style="Dark.TFrame")
             
-            label = tk.Label(frame, text=str(i), width=2,  # Set width to 2 characters
-                             font=('TkDefaultFont', 10), bg=self.bg_color, fg=self.fg_color)
+            label = tk.Label(frame, text=str(i), width=2,
+                           font=('TkDefaultFont', 10), bg=self.bg_color, fg=self.fg_color)
             label.place(relx=0.5, rely=0.5, anchor="center")  # Center in frame
             self.number_labels[i] = label
         
@@ -128,5 +129,5 @@ class ViewWindow:
     def update_state_display(self):
         self.state_display.config(state='normal')
         self.state_display.delete(1.0, tk.END)
-        self.state_display.insert(tk.END, f"{self.game.state}", "center")
+        self.state_display.insert(tk.END, self.game.state, "center")
         self.state_display.config(state='disabled')

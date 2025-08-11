@@ -4,12 +4,14 @@ import json
 import os
 
 from src.tombola_manager.utils import resource_path
+from src.tombola_manager.language_manager import LanguageManager
 
 
 class ControlWindow:
     def __init__(self, game, view_window):
         self.window = tk.Toplevel()
-        self.window.title(f"Tombola Control - {game.name}")
+        self.lang = LanguageManager()
+        self.window.title(self.lang.get_text('control_title', game.name))
         self.game = game
         self.view_window = view_window
 
@@ -25,33 +27,39 @@ class ControlWindow:
         left_frame.pack(side="left", padx=5, fill="both", expand=True)
         
         # Control frame (top left)
-        control_frame = ttk.LabelFrame(left_frame, text="Controls")
+        control_frame = ttk.LabelFrame(left_frame, text=self.lang.get_text('controls'))
         control_frame.pack(padx=5, pady=5, fill="x")
 
-
         # Add state selection dropdown
-        tk.Label(control_frame, text="Select State:", font=("Helvetica", 10)).pack(pady=5)
-        self.state_var = tk.StringVar(value="Ambo")
+        tk.Label(control_frame, text=self.lang.get_text('select_state')).pack(pady=5)
+        self.state_var = tk.StringVar(value=self.game.state)
         self.state_dropdown = ttk.Combobox(control_frame, textvariable=self.state_var, state="readonly")
-        self.state_dropdown['values'] = ("Ambo", "Terno", "Quaterna", "Cinquina", "Tombola", "SUPERBINGO")
+        self.state_dropdown['values'] = (
+            self.lang.get_text('ambo'),
+            self.lang.get_text('terno'),
+            self.lang.get_text('quaterna'),
+            self.lang.get_text('cinquina'),
+            self.lang.get_text('tombola'),
+            self.lang.get_text('superbingo')
+        )
         self.state_dropdown.pack(pady=5)
         self.state_dropdown.bind("<<ComboboxSelected>>", self.update_state)
         
         # Number entry
-        tk.Label(control_frame, text="Enter number:", font=("Helvetica", 10)).pack(pady=5)
-        self.number_entry = tk.Entry(control_frame, font=("Helvetica", 10))
+        tk.Label(control_frame, text=self.lang.get_text('enter_number')).pack(pady=5)
+        self.number_entry = tk.Entry(control_frame)
         self.number_entry.pack(pady=5)
         
         # Buttons
-        tk.Button(control_frame, text="Add Number", 
-                 command=self.add_number, bg="green", fg="white", font=("Helvetica", 12, "bold")).pack(pady=5)
-        tk.Button(control_frame, text="Remove Number", 
-                 command=self.remove_number, bg="red", fg="white", font=("Helvetica", 12, "bold")).pack(pady=5)
-        tk.Button(control_frame, text="Save Game", 
-                 command=self.save_game, font=("Helvetica", 12)).pack(pady=5)
+        tk.Button(control_frame, text=self.lang.get_text('add_number'), 
+                 command=self.add_number, bg="green", fg="white").pack(pady=5)
+        tk.Button(control_frame, text=self.lang.get_text('remove_number'), 
+                 command=self.remove_number, bg="red", fg="white").pack(pady=5)
+        tk.Button(control_frame, text=self.lang.get_text('save_game'), 
+                 command=self.save_game).pack(pady=5)
         
         # Status frame (bottom left)
-        status_frame = ttk.LabelFrame(left_frame, text="Status Table")
+        status_frame = ttk.LabelFrame(left_frame, text=self.lang.get_text('status_table'))
         status_frame.pack(padx=5, pady=5, fill="both", expand=True)
         
         # Create notebook for different views
@@ -60,7 +68,7 @@ class ControlWindow:
         
         # Grid view tab
         grid_frame = ttk.Frame(status_notebook)
-        status_notebook.add(grid_frame, text="Grid View")
+        status_notebook.add(grid_frame, text=self.lang.get_text('grid_view'))
         
         # Create grid of numbers
         self.grid_labels = {}
@@ -71,49 +79,49 @@ class ControlWindow:
             row = (i-1) // 10
             col = (i-1) % 10
             label = tk.Label(grid_container, text=str(i), width=3, height=1,
-                           relief="raised", borderwidth=1, font=("Helvetica", 10))
+                           relief="raised", borderwidth=1)
             label.grid(row=row, column=col, padx=1, pady=1)
             self.grid_labels[i] = label
         
         # List view tab
         list_frame = ttk.Frame(status_notebook)
-        status_notebook.add(list_frame, text="List View")
+        status_notebook.add(list_frame, text=self.lang.get_text('list_view'))
         
-        # Create status table (moved to list view tab)
+        # Create status table
         self.status_table = ttk.Treeview(list_frame, columns=("Called", "Remaining"),
                                        show="headings", height=5)
-        self.status_table.heading("Called", text="Called Numbers")
-        self.status_table.heading("Remaining", text="Remaining Numbers")
+        self.status_table.heading("Called", text=self.lang.get_text('called_numbers'))
+        self.status_table.heading("Remaining", text=self.lang.get_text('remaining_numbers'))
         self.status_table.column("Called", width=150)
         self.status_table.column("Remaining", width=150)
         self.status_table.pack(padx=5, pady=5, fill="both", expand=True)
         
         # Add statistics
-        self.stats_frame = ttk.LabelFrame(status_frame, text="Statistics")
+        self.stats_frame = ttk.LabelFrame(status_frame, text=self.lang.get_text('statistics'))
         self.stats_frame.pack(padx=5, pady=5, fill="x")
         
         self.stats_labels = {}
         stats = [
-            ("total_numbers", "Total Numbers Called:"),
-            ("remaining", "Numbers Remaining:"),
-            ("percentage", "Completion Percentage:")
+            ("total_numbers", self.lang.get_text('total_numbers')),
+            ("remaining", self.lang.get_text('numbers_remaining')),
+            ("percentage", self.lang.get_text('completion'))
         ]
         
         for key, text in stats:
             frame = ttk.Frame(self.stats_frame)
             frame.pack(fill="x", padx=5, pady=2)
-            tk.Label(frame, text=text, font=("Helvetica", 10)).pack(side="left")
-            label = tk.Label(frame, text="0", font=("Helvetica", 10))
+            tk.Label(frame, text=text).pack(side="left")
+            label = tk.Label(frame, text="0")
             label.pack(side="right")
             self.stats_labels[key] = label
         
         # Log frame (right side)
-        log_frame = ttk.LabelFrame(main_frame, text="Action Log")
+        log_frame = ttk.LabelFrame(main_frame, text=self.lang.get_text('action_log'))
         log_frame.pack(side="right", padx=5, pady=5, fill="both", expand=True)
         
         # Create scrolled text widget for log
         self.log_text = scrolledtext.ScrolledText(log_frame, width=40, height=20, 
-                                                wrap=tk.WORD, state='disabled', font=("Helvetica", 10))
+                                                wrap=tk.WORD, state='disabled')
         self.log_text.pack(padx=5, pady=5, fill="both", expand=True)
         
         # Load existing log if any
@@ -171,19 +179,22 @@ class ControlWindow:
                 if self.game.add_number(number):
                     self.view_window.update_display()
                     self.update_log()
-                    self.update_status_table()  # Add this line
+                    self.update_status_table()
                     self.save_game()
                 else:
-                    messagebox.showwarning("Warning", "Number already exists!")
-                    self.game.log_action(f"Failed to add number {number} (already exists)")
+                    messagebox.showwarning(self.lang.get_text('warning'), 
+                                         self.lang.get_text('number_exists'))
+                    self.game.log_action(self.lang.get_text('failed_add').format(number))
                     self.update_log()
             else:
-                messagebox.showwarning("Warning", "Number must be between 1 and 90!")
-                self.game.log_action(f"Failed to add invalid number {number} (out of range)")
+                messagebox.showwarning(self.lang.get_text('warning'), 
+                                     self.lang.get_text('invalid_number'))
+                self.game.log_action(self.lang.get_text('failed_add_invalid').format(number))
                 self.update_log()
         except ValueError:
-            messagebox.showerror("Error", "Please enter a valid number!")
-            self.game.log_action("Failed to add invalid input")
+            messagebox.showerror(self.lang.get_text('error'), 
+                               self.lang.get_text('enter_valid'))
+            self.game.log_action(self.lang.get_text('failed_add_input'))
             self.update_log()
         self.number_entry.delete(0, tk.END)
     
@@ -193,22 +204,24 @@ class ControlWindow:
             if self.game.remove_number(number):
                 self.view_window.update_display()
                 self.update_log()
-                self.update_status_table()  # Add this line
+                self.update_status_table()
                 self.save_game()
             else:
-                messagebox.showwarning("Warning", "Number not found!")
-                self.game.log_action(f"Failed to remove number {number} (not found)")
+                messagebox.showwarning(self.lang.get_text('warning'), 
+                                     self.lang.get_text('number_not_found'))
+                self.game.log_action(self.lang.get_text('failed_remove').format(number))
                 self.update_log()
         except ValueError:
-            messagebox.showerror("Error", "Please enter a valid number!")
-            self.game.log_action("Failed to remove invalid input")
+            messagebox.showerror(self.lang.get_text('error'), 
+                               self.lang.get_text('enter_valid'))
+            self.game.log_action(self.lang.get_text('failed_remove_input'))
             self.update_log()
         self.number_entry.delete(0, tk.END)
     
     def update_state(self, event):
         self.game.state = self.state_var.get()
         self.view_window.update_state_display()
-        self.game.log_action(f"State changed to {self.game.state}")
+        self.game.log_action(self.lang.get_text('state_changed').format(self.game.state))
         self.update_log()
     
     def save_game(self):
@@ -217,8 +230,8 @@ class ControlWindow:
             "numbers": list(self.game.numbers),
             "date": self.game.date,
             "log": self.game.log,
-            "last_number": self.game.last_number,  # Add this line
-            "state": self.game.state  # Add this line
+            "last_number": self.game.last_number,
+            "state": self.game.state
         }
         
         if not os.path.exists("games"):
