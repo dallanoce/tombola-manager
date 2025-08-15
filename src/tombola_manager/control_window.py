@@ -45,19 +45,26 @@ class ControlWindow:
         self.state_dropdown.pack(pady=5)
         self.state_dropdown.bind("<<ComboboxSelected>>", self.update_state)
         
-        # Number entry
-        tk.Label(control_frame, text=self.lang.get_text('enter_number')).pack(pady=5)
-        self.number_entry = tk.Entry(control_frame, font=("Arial", 14), width=10)
-        self.number_entry.pack(pady=5)
+        # Number entry with larger font
+        tk.Label(control_frame, text=self.lang.get_text('enter_number')).pack(pady=6)
+        self.number_entry = tk.Entry(control_frame, font=("Arial", 17), width=12)
+        self.number_entry.pack(pady=6)
         
-        # Buttons
-        tk.Button(control_frame, text=self.lang.get_text('add_number'), 
-                 command=self.add_number, bg="green", fg="white").pack(pady=5)
-        tk.Button(control_frame, text=self.lang.get_text('remove_number'), 
-                 command=self.remove_number, bg="red", fg="white").pack(pady=5)
-        tk.Button(control_frame, text=self.lang.get_text('save_game'), 
-                 command=self.save_game).pack(pady=5)
+        # Create a frame for buttons to arrange them horizontally
+        button_frame = ttk.Frame(control_frame)
+        button_frame.pack(pady=6)
         
+        # Buttons with larger size arranged horizontally
+        tk.Button(button_frame, text=self.lang.get_text('add_number'), 
+                 command=self.add_number, bg="green", fg="white",
+                 font=("Arial", 10)).pack(side="left", padx=3)
+        tk.Button(button_frame, text=self.lang.get_text('remove_number'), 
+                 command=self.remove_number, bg="red", fg="white",
+                 font=("Arial", 10)).pack(side="left", padx=3)
+        tk.Button(button_frame, text=self.lang.get_text('save_game'), 
+                 command=self.save_game,
+                 font=("Arial", 10)).pack(side="left", padx=3)
+
         # Status frame (bottom left)
         status_frame = ttk.LabelFrame(left_frame, text=self.lang.get_text('status_table'))
         status_frame.pack(padx=5, pady=5, fill="both", expand=True)
@@ -75,12 +82,13 @@ class ControlWindow:
         grid_container = ttk.Frame(grid_frame)
         grid_container.pack(padx=5, pady=5)
         
+        # Grid view modifications
         for i in range(1, 91):
             row = (i-1) // 10
             col = (i-1) % 10
-            label = tk.Label(grid_container, text=str(i), width=3, height=1,
-                           relief="raised", borderwidth=1)
-            label.grid(row=row, column=col, padx=1, pady=1)
+            label = tk.Label(grid_container, text=str(i), width=4, height=2,  # increased width and height
+                           relief="raised", borderwidth=1, font=("Arial", 10))  # added font size
+            label.grid(row=row, column=col, padx=2, pady=2)  # increased padding
             self.grid_labels[i] = label
         
         # List view tab
@@ -89,11 +97,11 @@ class ControlWindow:
         
         # Create status table
         self.status_table = ttk.Treeview(list_frame, columns=("Called", "Remaining"),
-                                       show="headings", height=5)
+                                       show="headings", height=6)  # increased height
         self.status_table.heading("Called", text=self.lang.get_text('called_numbers'))
         self.status_table.heading("Remaining", text=self.lang.get_text('remaining_numbers'))
-        self.status_table.column("Called", width=150)
-        self.status_table.column("Remaining", width=150)
+        self.status_table.column("Called", width=180)  # increased width
+        self.status_table.column("Remaining", width=180)  # increased width
         self.status_table.pack(padx=5, pady=5, fill="both", expand=True)
         
         # Add statistics
@@ -120,8 +128,9 @@ class ControlWindow:
         log_frame.pack(side="right", padx=5, pady=5, fill="both", expand=True)
         
         # Create scrolled text widget for log
-        self.log_text = scrolledtext.ScrolledText(log_frame, width=40, height=20, 
-                                                wrap=tk.WORD, state='disabled')
+        self.log_text = scrolledtext.ScrolledText(log_frame, width=48, height=24,  # increased width and height
+                                                wrap=tk.WORD, state='disabled',
+                                                font=("Arial", 10))  # added font size
         self.log_text.pack(padx=5, pady=5, fill="both", expand=True)
         
         # Load existing log if any
@@ -178,6 +187,7 @@ class ControlWindow:
             if 1 <= number <= 90:
                 if self.game.add_number(number):
                     self.view_window.update_display()
+                    self.game.log_action(f'{self.lang.get_text('added_number').format(number)}')
                     self.update_log()
                     self.update_status_table()
                     self.save_game()
@@ -203,6 +213,7 @@ class ControlWindow:
             number = int(self.number_entry.get())
             if self.game.remove_number(number):
                 self.view_window.update_display()
+                self.game.log_action(self.lang.get_text('removed_number').format(number))
                 self.update_log()
                 self.update_status_table()
                 self.save_game()

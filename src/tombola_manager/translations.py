@@ -57,6 +57,8 @@ TRANSLATIONS = {
         'failed_remove': 'Failed to remove number {} (not found)',
         'failed_remove_input': 'Failed to remove invalid input',
         'state_changed': 'State changed to {}',
+        'added_number': 'Added number: {}',
+        'removed_number': 'Removed number: {}',
     },
     'it': {
         # Main Window
@@ -116,5 +118,7 @@ TRANSLATIONS = {
         'failed_remove': 'Impossibile rimuovere il numero {} (non trovato)',
         'failed_remove_input': 'Impossibile rimuovere input non valido',
         'state_changed': 'Stato cambiato in {}',
+        'added_number': 'Aggiunto numero: {}',
+        'removed_number': 'Rimosso numero: {}',
     }
 }
